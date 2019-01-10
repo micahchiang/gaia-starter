@@ -1,7 +1,7 @@
 const mutations = {
-    setData(state, data) {
-        state.data = data;
-    }
-}
+  setData(state, data) {
+    state.cities = data;
+  }
+};
 
 export default mutations;

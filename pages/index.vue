@@ -1,40 +1,50 @@
 <template>
   <section class="container">
-    <div>
-      <logo/>
-      <h1 class="title">
-        gaia-starter
-      </h1>
-      <h2 class="subtitle">
-        gaia starter
-      </h2>
-    </div>
+    <Header/>
+    <Body/>
   </section>
 </template>
 
 <script>
-import Logo from '~/components/Logo.vue'
+import Header from "~/components/Header.vue";
+import Body from "~/components/Body.vue";
+import backendService from "../services/backend.service.js";
+
+const service = new backendService();
 
 export default {
   components: {
-    Logo
+    Header,
+    Body
+  },
+  async fetch({ store }) {
+    let cities = ["Lancaster, CA", "Pasadena, CA", "Riverside, CA"];
+    const data = {};
+    for (let city of cities) {
+      let res = await service.getResource(city);
+      data[city] = res;
+    }
+    store.commit("setData", data);
   }
-}
+};
 </script>
 
-<style>
-
+<style lang='scss'>
 .container {
   min-height: 100vh;
   display: flex;
-  justify-content: center;
+  flex-direction: column;
+  justify-content: flex-start;
   align-items: center;
   text-align: center;
+
+  header {
+  }
 }
 
 .title {
-  font-family: 'Quicksand', 'Source Sans Pro', -apple-system, BlinkMacSystemFont,
-    'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  font-family: "Quicksand", "Source Sans Pro", -apple-system, BlinkMacSystemFont,
+    "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
   display: block;
   font-weight: 300;
   font-size: 100px;
